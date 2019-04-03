@@ -12,6 +12,7 @@ let checkKeyInput = $('#feedback');
 let mistakes = 0;
 let numOfWords = 0;
 let startTime = new Date().getTime();
+let gameEnd = false;
 
 
 for (let i = 0; i < sentences.length; i++) {
@@ -37,7 +38,9 @@ $('body').keypress(function (e) {
     $(keyIdent).css('background-color', 'RosyBrown');
     $('body').keyup(function () {
         $(keyIdent).css('background-color', '#f5f5f5');
-
+        if (gameEnd == true) {
+            e.stopPropagation()
+        }
     });
 
     function gameOverMan() {
@@ -48,8 +51,8 @@ $('body').keypress(function (e) {
         $('.game-over').append(`Your words per minute score is: ${wordsPerMin}. Your total of incorrect characters is: ${mistakes}`);
         $('.one-more-once').css('margin', '15px');
         $('.play-again').append('<button class=one-more-once>Play again?</button>');
-        $('.play-again').click(function(){
-                location.reload();
+        $('.play-again').click(function () {
+            location.reload();
         });
     };
 
@@ -72,7 +75,8 @@ $('body').keypress(function (e) {
         // console.log(sentenceIndex, sentences.length);
         //represents end of the game.
         if (sentenceIndex >= sentences.length) {
-            gameOverMan(); 
+            gameEnd = true;
+            gameOverMan();
         } else {
             $('#feedback').empty();
             $('#yellow-block').css('left', '17.5px');
